@@ -53,6 +53,6 @@ if __name__ == '__main__':
     ]
 
     # 保存 JSON
-    with open("../operator.json", "w") as f:
+    with open("operator.json", "w") as f:
         json.dump(hamiltonian_list, f)
 

@@ -23,7 +23,7 @@ def main():
     # qasm_str = qiskit.qasm2.dumps(decomposed_circuit)
     qasm_str = qasm3.dumps(decomposed_circuit, experimental=qasm3.ExperimentalFeatures.SWITCH_CASE_V1)
 
-    output_file = '../my_circuit.qasm'
+    output_file = 'my_circuit.qasm'
     with open(output_file, 'w') as f:
         f.write(qasm_str)
 
