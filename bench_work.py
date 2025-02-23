@@ -226,4 +226,3 @@ if __name__ == "__main__":
         run_vqe_for_fragment(fragment, service)
 
     print("\nAll processing is complete.")
-
