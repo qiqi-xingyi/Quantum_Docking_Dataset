@@ -8,23 +8,23 @@ import os
 import shutil
 import time
 
-# 根据你的工程结构，确保可以正确导入如下模块
+# Make sure these modules can be correctly imported according to your project structure
 from Protein_Folding import Peptide
 from Protein_Folding.interactions.miyazawa_jernigan_interaction import MiyazawaJerniganInteraction
 from Protein_Folding.penalty_parameters import PenaltyParameters
 from Protein_Folding.protein_folding_problem import ProteinFoldingProblem
 
-# 这里替换成你实际的 VQE5 类所在的模块
+# Replace this with the actual module where VQE5 class is located
 from Qiskit_VQE import VQE5
 from Qiskit_VQE import StateCalculator
 
-# 如果你需要在这个脚本中初始化 QiskitRuntimeService
+# If you need to initialize QiskitRuntimeService in this script, uncomment the following
 # from qiskit_ibm_runtime import QiskitRuntimeService
 
 
 def read_config(file_path):
     """
-    读取 config 文件 (INSTANCE=xxx / TOKEN=xxx)
+    Read the config file (INSTANCE=xxx / TOKEN=xxx)
     """
     config = {}
     try:
@@ -43,7 +43,7 @@ def read_config(file_path):
 
 def parse_txt_file(txt_file_path):
     """
-    读取指定 TXT 文件的每一行，解析得到数据结构：
+    Read each line from the specified TXT file and parse it into the following data structure:
     [
       {
         'pdb_id': <str>,
@@ -55,7 +55,7 @@ def parse_txt_file(txt_file_path):
       ...
     ]
     """
-    # 三字母转一字母的映射
+    # Mapping from three-letter codes to one-letter codes
     three_to_one = {
         'ALA': 'A', 'ARG': 'R', 'ASN': 'N', 'ASP': 'D', 'CYS': 'C',
         'GLN': 'Q', 'GLU': 'E', 'GLY': 'G', 'HIS': 'H', 'ILE': 'I',
@@ -70,7 +70,7 @@ def parse_txt_file(txt_file_path):
             if not line:
                 continue
 
-            # 假设以 TAB 分隔，若你的数据是空格或其他分隔符，请自行调整
+            # Assumes tab-separated data. Adjust if your data uses spaces or other delimiters
             parts = line.split('\t')
             if len(parts) < 5:
                 continue
@@ -81,12 +81,12 @@ def parse_txt_file(txt_file_path):
             residue_info = parts[3]        # e.g. "Residues 192-203"
             seq_info_3letter = parts[4]    # e.g. "VAL-VAL-TYR-PRO-..."
 
-            # 解析 chain
+            # Parse chain
             chain = chain_info.replace("Chain", "").strip()
-            # 解析残基编号区间
+            # Parse residue range
             residues_range = residue_info.replace("Residues", "").strip()
 
-            # 三字母 -> 一字母
+            # Convert three-letter codes to one-letter codes
             three_letter_codes = seq_info_3letter.split('-')
             single_letter_codes = []
             for code_3letter in three_letter_codes:
@@ -110,7 +110,7 @@ def parse_txt_file(txt_file_path):
 
 def pick_unique_fragments(fragments, max_count=25):
     """
-    保留前 max_count 个不同 pdb_id 的片段
+    Keep the first max_count fragments with different pdb_ids
     """
     selected = []
     used_pdb_ids = set()
@@ -125,7 +125,8 @@ def pick_unique_fragments(fragments, max_count=25):
 
 def run_vqe_for_fragment(frag, service, max_iter=150):
     """
-    使用VQE5来预测该fragment对应的蛋白结构，保存5组最优结构。
+    Use VQE5 to predict the protein structure corresponding to the given fragment
+    and save the top 5 optimal structures.
     """
     main_chain_sequence = frag['sequence']
     protein_id = frag['pdb_id']
@@ -134,23 +135,23 @@ def run_vqe_for_fragment(frag, service, max_iter=150):
     print(f"Residue sequence: {main_chain_sequence}")
     print(f"Sequence length: {len(main_chain_sequence)}")
 
-    # 1. 构建蛋白对象（此处只用主链，不处理侧链）
+    # 1. Construct the protein object (only main chain here, no side chains)
     side_chain_seq = ['' for _ in range(len(main_chain_sequence))]
     peptide = Peptide(main_chain_sequence, side_chain_seq)
 
-    # 2. 定义相互作用 & 罚函数参数
+    # 2. Define interaction and penalty parameters
     mj_interaction = MiyazawaJerniganInteraction()
     penalty_terms = PenaltyParameters(10, 10, 10)
 
-    # 3. 建立“蛋白质折叠”问题并构建哈密顿量
+    # 3. Build the protein folding problem and construct the Hamiltonian
     protein_folding_problem = ProteinFoldingProblem(peptide, mj_interaction, penalty_terms)
     hamiltonian = protein_folding_problem.qubit_op()
 
-    # 这里根据你的需求，把额外加的 qubits 数改为 5（代替原先 +2 的做法）
+    # Here, according to your needs, add 5 extra qubits (instead of the original +2 approach)
     qubits_num = hamiltonian.num_qubits + 5
     print(f"Number of qubits: {qubits_num}")
 
-    # 4. 调用 VQE5
+    # 4. Call VQE5
     vqe_instance = VQE5(
         service=service,
         hamiltonian=hamiltonian,
@@ -158,38 +159,38 @@ def run_vqe_for_fragment(frag, service, max_iter=150):
         maxiter=max_iter
     )
 
-    # run_vqe() 返回 (energy_list, best_solution, ansatz, top_results)
-    # 其中 top_results 通常是 [(能量值, 参数), ...] 共5组
+    # run_vqe() returns (energy_list, best_solution, ansatz, top_results)
+    # top_results is typically [(energy_value, parameters), ...] for 5 sets
     energy_list, final_solution, ansatz, top_results = vqe_instance.run_vqe()
 
-    # 5. 根据结果做后处理和保存
-    # 设置输出目录：每个 pdb_id 一个文件夹
+    # 5. Post-processing and saving results
+    # Set output directory: one folder per pdb_id
     output_dir = f"result/{protein_id}"
     os.makedirs(output_dir, exist_ok=True)
 
-    # (a) 保存全部迭代过程的能量列表
+    # (a) Save the entire iteration energy list
     energy_list_file = os.path.join(output_dir, f"energy_list_{protein_id}.txt")
     with open(energy_list_file, 'w') as file:
         for item in energy_list:
             file.write(str(item) + '\n')
     print(f"Energy list saved to: {energy_list_file}")
 
-    # (b) 计算 final_solution 的概率分布并解释成 3D 坐标
+    # (b) Compute the probability distribution of the final_solution and interpret it into 3D coordinates
     state_calculator = StateCalculator(service, qubits_num, ansatz)
     final_prob_dist = state_calculator.get_probability_distribution(final_solution)
     protein_result = protein_folding_problem.interpret(final_prob_dist)
 
-    # (c) 保存最终结构 .xyz
+    # (c) Save the final structure as .xyz
     protein_result.save_xyz_file(name=protein_id, path=output_dir)
     print(f"Protein structure saved at: {output_dir}/{protein_id}.xyz")
 
-    # (d) 保存 top 5 结果各自的能量
+    # (d) Save the energy of the top 5 results
     top_energies_file = os.path.join(output_dir, f"top_5_energies_{protein_id}.txt")
     with open(top_energies_file, 'w') as f_top:
         for rank, (energy_val, best_params) in enumerate(top_results, start=1):
             f_top.write(f"Rank {rank}: {energy_val}\n")
 
-    # (e) 对每个 top result 再做一次概率分布、解析并存 .xyz
+    # (e) For each top result, compute the probability distribution, interpret it, and save as .xyz
     for rank, (energy_val, best_params) in enumerate(top_results, start=1):
         prob_dist_best = state_calculator.get_probability_distribution(best_params)
         protein_result_best = protein_folding_problem.interpret(prob_dist_best)
@@ -202,20 +203,20 @@ def run_vqe_for_fragment(frag, service, max_iter=150):
 
 def main():
     # ====================
-    # 0) 用户可修改的参数
+    # 0) User-modifiable parameters
     # ====================
-    txt_file_path = "Data/5_7.txt"       # 需要预测的片段TXT文件
-    config_path = "config.txt"      # IBM Quantum config 文件
-    max_fragments = 25              # 最多选多少个片段
-    max_iter = 10                  # VQE 最大迭代次数
+    txt_file_path = "Data/5_7.txt"       # The TXT file containing fragments to be predicted
+    config_path = "config.txt"           # IBM Quantum config file
+    max_fragments = 25                   # Maximum number of fragments
+    max_iter = 10                        # Maximum VQE iterations
 
-    # 1) 读取配置
+    # 1) Read the config
     config = read_config(config_path)
     if not config or "INSTANCE" not in config or "TOKEN" not in config:
         print("Could not read INSTANCE or TOKEN from config. Please check your config file.")
         return
 
-    # 2) 初始化量子服务
+    # 2) Initialize the quantum service
     from qiskit_ibm_runtime import QiskitRuntimeService
     service = QiskitRuntimeService(
         channel='ibm_quantum',
@@ -223,13 +224,13 @@ def main():
         token=config["TOKEN"]
     )
 
-    # 3) 从TXT中读入所有片段
+    # 3) Read all fragments from TXT
     all_fragments = parse_txt_file(txt_file_path)
 
-    # 4) 选取去重后的前 max_fragments 个
+    # 4) Pick up to max_fragments unique fragments
     selected_fragments = pick_unique_fragments(all_fragments, max_fragments)
 
-    # 5) 对每个fragment运行量子预测
+    # 5) Run quantum prediction for each fragment
     log_file_path = "execution_time_log.txt"
     with open(log_file_path, 'w') as log_file:
         log_file.write("Protein_ID\tSequence\tExecution_Time(s)\n")
@@ -244,7 +245,7 @@ def main():
             end_time = time.time()
 
             elapsed = end_time - start_time
-            # 记录日志
+            # Record to log
             log_file.write(f"{protein_id}\t{seq}\t{elapsed:.2f}\n")
 
     print("\nAll processing is complete. Log saved to:", log_file_path)
@@ -252,4 +253,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
