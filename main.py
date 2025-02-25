@@ -1,45 +1,22 @@
 # --*-- conding:utf-8 --*--
-# @Time : 2/21/25 6:05 PM
+# @Time : 2/25/25 3:27 PM
 # @Author : Yuqi Zhang
 # @Email : yzhan135@kent.edu
-# @File : benchmark.py
+# @File : main.py
+
 
 import os
 import shutil
 import time
 
-# Make sure these modules can be correctly imported according to your project structure
 from Protein_Folding import Peptide
 from Protein_Folding.interactions.miyazawa_jernigan_interaction import MiyazawaJerniganInteraction
 from Protein_Folding.penalty_parameters import PenaltyParameters
 from Protein_Folding.protein_folding_problem import ProteinFoldingProblem
 from qiskit_ibm_runtime import QiskitRuntimeService
 
-# Replace this with the actual module where VQE5 class is located
 from Qiskit_VQE import VQE5
 from Qiskit_VQE import StateCalculator
-
-# If you need to initialize QiskitRuntimeService in this script, uncomment the following
-# from qiskit_ibm_runtime import QiskitRuntimeService
-
-
-def read_config(file_path):
-    """
-    Read the config file (INSTANCE=xxx / TOKEN=xxx)
-    """
-    config = {}
-    try:
-        with open(file_path, "r") as file:
-            for line in file:
-                line = line.strip()
-                if not line or "=" not in line:
-                    continue
-                key, value = line.split("=", 1)
-                config[key.strip()] = value.strip()
-    except Exception as e:
-        print(f"Failed to read config file: {e}")
-        return None
-    return config
 
 
 def parse_txt_file(txt_file_path):
@@ -202,7 +179,7 @@ def run_vqe_for_fragment(frag, service, max_iter=150):
     print(f"Finished processing: {protein_id}\n")
 
 
-def main():
+def main(instance, token):
     # ====================
     # 0) User-modifiable parameters
     # ====================
@@ -211,27 +188,19 @@ def main():
     max_fragments = 25                   # Maximum number of fragments
     max_iter = 200                       # Maximum VQE iterations
 
-    # 1) Read the config
-    config = read_config(config_path)
-    if not config or "INSTANCE" not in config or "TOKEN" not in config:
-        print("Could not read INSTANCE or TOKEN from config. Please check your config file.")
-        return
 
-    # 2) Initialize the quantum service
 
     service = QiskitRuntimeService(
         channel='ibm_quantum',
-        instance=config["INSTANCE"],
-        token=config["TOKEN"]
+        instance= instance,
+        token= token
     )
 
-    # 3) Read all fragments from TXT
+
     all_fragments = parse_txt_file(txt_file_path)
 
-    # 4) Pick up to max_fragments unique fragments
     selected_fragments = pick_unique_fragments(all_fragments, max_fragments)
 
-    # 5) Run quantum prediction for each fragment
     log_file_path = "execution_time_log.txt"
     with open(log_file_path, 'w') as log_file:
         log_file.write("Protein_ID\tSequence\tExecution_Time(s)\n")
@@ -246,13 +215,15 @@ def main():
             end_time = time.time()
 
             elapsed = end_time - start_time
-            # Record to log
+
             log_file.write(f"{protein_id}\t{seq}\t{elapsed:.2f}\n")
 
     print("\nAll processing is complete. Log saved to:", log_file_path)
 
 
 if __name__ == "__main__":
-    main()
 
+    instance = ''
+    token = ''
 
+    main(instance,token)
