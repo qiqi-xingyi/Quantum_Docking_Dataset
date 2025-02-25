@@ -207,7 +207,7 @@ def main():
     txt_file_path = "Data/5_7.txt"       # 需要预测的片段TXT文件
     config_path = "config.txt"      # IBM Quantum config 文件
     max_fragments = 25              # 最多选多少个片段
-    max_iter = 1                  # VQE 最大迭代次数
+    max_iter = 10                  # VQE 最大迭代次数
 
     # 1) 读取配置
     config = read_config(config_path)
