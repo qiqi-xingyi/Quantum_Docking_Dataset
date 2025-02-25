@@ -189,7 +189,6 @@ def main(instance, token):
     max_iter = 200                       # Maximum VQE iterations
 
 
-
     service = QiskitRuntimeService(
         channel='ibm_quantum',
         instance= instance,
