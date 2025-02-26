@@ -4,7 +4,6 @@
 # @Email : yzhan135@kent.edu
 # @File : main.py
 
-
 import os
 import shutil
 import time
@@ -17,7 +16,6 @@ from qiskit_ibm_runtime import QiskitRuntimeService
 
 from Qiskit_VQE import VQE5
 from Qiskit_VQE import StateCalculator
-
 
 def parse_txt_file(txt_file_path):
     """
