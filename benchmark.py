@@ -206,7 +206,7 @@ def main():
     # ====================
     # 0) User-modifiable parameters
     # ====================
-    txt_file_path = "Data/5_7.txt"       # The TXT file containing fragments to be predicted
+    txt_file_path = "Data/10_11.txt"       # The TXT file containing fragments to be predicted
     config_path = "config.txt"           # IBM Quantum config file
     max_fragments = 25                   # Maximum number of fragments
     max_iter = 200                       # Maximum VQE iterations
@@ -232,7 +232,7 @@ def main():
     selected_fragments = pick_unique_fragments(all_fragments, max_fragments)
 
     # 5) Run quantum prediction for each fragment
-    log_file_path = "execution_time_log.txt"
+    log_file_path = "execution_time_log_10_11.txt"
     with open(log_file_path, 'w') as log_file:
         log_file.write("Protein_ID\tSequence\tExecution_Time(s)\n")
 
