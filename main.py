@@ -193,7 +193,6 @@ def main(instance, token):
         token= token
     )
 
-
     all_fragments = parse_txt_file(txt_file_path)
 
     selected_fragments = pick_unique_fragments(all_fragments, max_fragments)
