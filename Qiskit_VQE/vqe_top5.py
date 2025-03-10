@@ -115,7 +115,7 @@ class VQE5:
                 1. Generates the optimized quantum circuit using the pass manager.
                 2. Prepares the Hamiltonian for computation.
                 3. Initializes the optimization process using COBYLA.
-                4. Returns the result of the optimization (minimum eigenvalue of the Hamiltonian).
+                4. Returns the result_10_11 of the optimization (minimum eigenvalue of the Hamiltonian).
 
                 Returns:
                 - energy_list: The list of all observed energies during optimization.

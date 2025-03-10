@@ -12,7 +12,7 @@ class ProteinShapeDecoder:
     """
     This class handles the decoding of the compact solution in
     :class:`~Protein_Folding.protein_folding_problem.ProteinFoldingProblem`
-    and returns the information encoded in the result about the turns
+    and returns the information encoded in the result_10_11 about the turns
     associated to the main and side chains.
     """
 

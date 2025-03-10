@@ -166,7 +166,7 @@ def run_vqe_for_fragment(frag, service, max_iter=150):
         for rank, (energy_val, best_params) in enumerate(top_results, start=1):
             f_top.write(f"Rank {rank}: {energy_val}\n")
 
-    # (e) For each top result, compute the probability distribution, interpret it, and save as .xyz
+    # (e) For each top result_10_11, compute the probability distribution, interpret it, and save as .xyz
     for rank, (energy_val, best_params) in enumerate(top_results, start=1):
         prob_dist_best = state_calculator.get_probability_distribution(best_params)
         protein_result_best = protein_folding_problem.interpret(prob_dist_best)

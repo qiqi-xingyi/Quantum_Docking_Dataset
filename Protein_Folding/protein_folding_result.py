@@ -3,7 +3,7 @@
 # This code is licensed under the Apache License, Version 2.0.
 # You may obtain a copy of this license at http://www.apache.org/licenses/LICENSE-2.0.
 
-"""The protein folding result."""
+"""The protein folding result_10_11."""
 
 from typing import List, Optional
 from qiskit.utils import optionals as _optionals
@@ -71,14 +71,14 @@ class ProteinFoldingResult:
 
     @property
     def protein_shape_decoder(self) -> ProteinShapeDecoder:
-        """Returns the :class:`ProteinShapeDecoder` of the result.
-        This class will interpret the result bitstring and return the encoded information.
+        """Returns the :class:`ProteinShapeDecoder` of the result_10_11.
+        This class will interpret the result_10_11 bitstring and return the encoded information.
         """
         return self._protein_shape_decoder
 
     @property
     def protein_shape_file_gen(self) -> ProteinShapeFileGen:
-        """Returns the :class:`ProteinShapeFileGen` of the result."""
+        """Returns the :class:`ProteinShapeFileGen` of the result_10_11."""
         return self._protein_shape_file_gen
 
     @property

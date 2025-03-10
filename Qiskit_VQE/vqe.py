@@ -103,7 +103,7 @@ class VQE:
 
         job_result = sampler.run([circuit]).result()
 
-        # print(f'job result:{job_result}')
+        # print(f'job result_10_11:{job_result}')
 
         data = [q.binary_probabilities() for q in job_result.quasi_dists]
 
@@ -118,10 +118,10 @@ class VQE:
                 1. Generates the optimized quantum circuit using the pass manager.
                 2. Prepares the Hamiltonian for computation.
                 3. Initializes the optimization process using COBYLA.
-                4. Returns the result of the optimization (minimum eigenvalue of the Hamiltonian).
+                4. Returns the result_10_11 of the optimization (minimum eigenvalue of the Hamiltonian).
 
                 Returns:
-                - res: The result of the classical optimizer containing the optimized parameters and minimum energy value.
+                - res: The result_10_11 of the classical optimizer containing the optimized parameters and minimum energy value.
         """
         pm = self._generate_pass_manager()
         ansatz_isa = pm.run(self.ansatz)

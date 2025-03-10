@@ -97,7 +97,7 @@ class ProteinFoldingProblem(SamplingProblem):
 
         Returns:
             A :class:`~Protein_Folding.ProteinFoldingResult`
-            instance that contains the protein folding result.
+            instance that contains the protein folding result_10_11.
         """
         # pylint: disable=import-outside-toplevel
         from .protein_folding_result import ProteinFoldingResult

@@ -64,7 +64,7 @@ def split_consecutive_segments(chain_id, residues, folder_name, pdb_file, out_f)
         if residues[i][0] != residues[i - 1][0] + 1:
             # [start_idx, i-1] is a continuous segment
             segment = residues[start_idx:i]
-            # Write the result
+            # Write the result_10_11
             _write_segment_if_in_range(segment, chain_id, folder_name, pdb_file, out_f)
             start_idx = i
 
