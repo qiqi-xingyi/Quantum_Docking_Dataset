@@ -220,5 +220,4 @@ if __name__ == "__main__":
 
     instance = ''
     token = ''
-
     main(instance,token)
