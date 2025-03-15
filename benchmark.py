@@ -206,9 +206,9 @@ def main():
     # ====================
     # 0) User-modifiable parameters
     # ====================
-    txt_file_path = "Data/8_9.txt"       # The TXT file containing fragments to be predicted
+    txt_file_path = "Data/8_9_part2.txt"       # The TXT file containing fragments to be predicted
     config_path = "config.txt"           # IBM Quantum config file
-    max_fragments = 25                   # Maximum number of fragments
+    max_fragments = 22                   # Maximum number of fragments
     max_iter = 200                       # Maximum VQE iterations
 
     # 1) Read the config
