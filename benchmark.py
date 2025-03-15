@@ -232,7 +232,7 @@ def main():
     selected_fragments = pick_unique_fragments(all_fragments, max_fragments)
 
     # 5) Run quantum prediction for each fragment
-    log_file_path = "execution_time_log_8_9.txt"
+    log_file_path = "execution_time_log_8_9_part2.txt"
     with open(log_file_path, 'w') as log_file:
         log_file.write("Protein_ID\tSequence\tExecution_Time(s)\n")
 
