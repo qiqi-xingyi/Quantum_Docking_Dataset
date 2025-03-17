@@ -251,6 +251,7 @@ def main():
 
     print("\nAll processing is complete. Log saved to:", log_file_path)
 
+
 if __name__ == "__main__":
     main()
 
