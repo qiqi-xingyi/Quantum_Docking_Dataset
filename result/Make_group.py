@@ -11,7 +11,7 @@ if __name__ == '__main__':
 
     # Define paths
     result_path = 'result'  # Path to the result folder
-    grouped_path = '../post_process/data_or/grouped_result'  # Path for the new grouped folders
+    grouped_path = '../post_process/original_data/grouped_result'  # Path for the new grouped folders
 
     # Create the grouped_by_chain_length folder if it doesn’t exist
     if not os.path.exists(grouped_path):
