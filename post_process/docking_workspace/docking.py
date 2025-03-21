@@ -30,8 +30,8 @@ class UnifiedDockingPipeline:
     """
 
     def __init__(self,
-                 grouped_result_dir,   # e.g. "data/grouped_result"
-                 selected_dir,         # e.g. "data/selected"
+                 grouped_result_dir,   # e.g. "docking_workspace/grouped_result"
+                 selected_dir,         # e.g. "docking_workspace/selected"
                  output_dir,           # e.g. "docking_output"
                  seed=42):
         """
@@ -497,9 +497,9 @@ def main():
     简单演示如何调用 UnifiedDockingPipeline 完成对新预测集的 docking 流程。
     根据实际情况修改参数、目录等。
     """
-    grouped_result_dir = "data/grouped_result"  # 存放 chain_5, chain_6, ...
-    selected_dir = "data/selected"             # 存放配体 .mol2
-    output_dir = "docking_output"              # docking 结果输出
+    grouped_result_dir = "grouped_result"  # 存放 chain_5, chain_6, ...
+    selected_dir = "selected"  # 存放配体 .mol2
+    output_dir = "../docking_output"  # docking 结果输出
 
     pipeline = UnifiedDockingPipeline(
         grouped_result_dir=grouped_result_dir,

@@ -19,8 +19,6 @@ from qiskit_ibm_runtime import QiskitRuntimeService
 from Qiskit_VQE import VQE5
 from Qiskit_VQE import StateCalculator
 
-# If you need to initialize QiskitRuntimeService in this script, uncomment the following
-# from qiskit_ibm_runtime import QiskitRuntimeService
 
 
 def read_config(file_path):
@@ -44,7 +42,7 @@ def read_config(file_path):
 
 def parse_txt_file(txt_file_path):
     """
-    Read each line from the specified TXT file and parse it into the following data structure:
+    Read each line from the specified TXT file and parse it into the following docking_workspace structure:
     [
       {
         'pdb_id': <str>,
@@ -71,7 +69,7 @@ def parse_txt_file(txt_file_path):
             if not line:
                 continue
 
-            # Assumes tab-separated data. Adjust if your data uses spaces or other delimiters
+            # Assumes tab-separated docking_workspace. Adjust if your docking_workspace uses spaces or other delimiters
             parts = line.split('\t')
             if len(parts) < 5:
                 continue
