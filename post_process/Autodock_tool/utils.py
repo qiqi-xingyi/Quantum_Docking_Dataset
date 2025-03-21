@@ -9,7 +9,7 @@ import subprocess
 
 
 class AutoDockDocking:
-    def __init__(self, receptor_pdbqt, ligand_mol2, output_dir="./process_data/docking_output_6mu3", log_file_name='docking_log.txt', seed=2):
+    def __init__(self, receptor_pdbqt, ligand_mol2, output_dir, log_file_name, seed=2):
         self.receptor_pdbqt = receptor_pdbqt
         self.ligand_mol2 = ligand_mol2
         self.output_dir = output_dir
