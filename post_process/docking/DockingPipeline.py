@@ -158,7 +158,7 @@ class DockingPipeline:
         a.starting_model = 1
         a.ending_model = 1
         a.make()
-        output_model = os.path.join(self.output_dir, 'protein_full.B99990001.pdb')
+        output_model = os.path.join(os.getcwd(), 'protein_full.B99990001.pdb')
         with open(output_model, 'r') as f:
             full_pdb_content = f.read()
         os.remove(temp_ca_pdb)

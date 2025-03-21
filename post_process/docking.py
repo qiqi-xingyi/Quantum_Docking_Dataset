@@ -27,32 +27,29 @@ def docking_test(chain_dir, protein_id, xyz_files, ligand_file, num_trials=20):
     seed_log_file = f"./{docking_output_path}/seed_log.txt"
     os.makedirs(os.path.dirname(seed_log_file), exist_ok=True)
 
-    # Record the seed for each trial
     with open(seed_log_file, "w") as seed_file:
         seed_file.write("Trial\tSeed\n")
 
-    # Perform num_trials trials
     for trial in range(1, num_trials + 1):
         seed = random.randint(1, 100000)
         print(f"Trial {trial} - Using seed: {seed}")
         with open(seed_log_file, "a") as seed_file:
             seed_file.write(f"{trial}\t{seed}\n")
 
-        # Process each .xyz file
         for xyz_file in xyz_files:
             print(f'Processing XYZ file: {xyz_file}')
-            quantum_output_dir = f"./{docking_output_path}/quantum_trial_{trial}/{os.path.basename(xyz_file)}"
+            xyz_basename = os.path.splitext(os.path.basename(xyz_file))[0]
+            quantum_output_dir = f"./{docking_output_path}/quantum_trial_{trial}/{xyz_basename}"
             os.makedirs(quantum_output_dir, exist_ok=True)
             pipeline = DockingPipeline(quantum_output_dir)
             pipeline.dock_quantum(
-                xyz_file,  # Current .xyz file path
-                ligand_file,  # Ligand file path
-                quantum_output_dir,  # Output directory
-                f"docking_log_trial_{trial}_{os.path.basename(xyz_file)}.txt",  # Log file
-                seed  # Random seed
+                xyz_file,
+                ligand_file,
+                quantum_output_dir,
+                f"docking_log_trial_{trial}_{os.path.basename(xyz_file)}.txt",
+                seed
             )
             print(f"Trial {trial} docking for {xyz_file} completed.")
-            print("\n")
 
 
 if __name__ == "__main__":
